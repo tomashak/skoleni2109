@@ -3,6 +3,7 @@ Documentation  Nejaky popis teto suity fasd;lkafjsdalfjds;lakfjdsalfjdsa;kfjds;f
 ...  Druhy radek, dalsi dokumentace
 ...  Treti radek
 Library    SeleniumLibrary
+Library    ExcelRobot
 Resource  ../Resources/MainPage.robot
 Resource  ../Resources/ResultPage.robot
 Resource  ../Resources/common.robot
@@ -15,10 +16,15 @@ Test Teardown  Close Browser
 *** Test Cases ***
 Eshop search - Shirt
     [Documentation]    nejaky popis testcase, link do dokumentace, dulezite info    
-    Search for product    T-Shirt
-    Check result page    T-Shirt          
+    [Tags]  regrese  smoke
+    open excel    Data/table.xls
+    ${pocetRadku}=     get row count  Sheet1
+    FOR  ${radek}  IN RANGE  2  ${pocetRadku}+1   #loop for excel table
+        ${coHledat}=       read cell data by name  Sheet1  A${radek}
+        ${coKontrolovat}=  read cell data by name  Sheet1  B${radek}
+        run keyword and continue on failure  Search for product    ${coHledat}
+        run keyword and continue on failure  Check result page     ${coKontrolovat}
+        Go To    ${URL}
+    END
+              
 
-Eshop search - Top    
-    [Documentation]    nejaky popis testcase, link do dokumentace, dulezite info
-    Search for product    Top
-    Check result page    Top
