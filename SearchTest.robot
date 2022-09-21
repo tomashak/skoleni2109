@@ -4,26 +4,37 @@ Documentation  Nejaky popis teto suity fasd;lkafjsdalfjds;lakfjdsalfjdsa;kfjds;f
 ...  Treti radek
 Library    SeleniumLibrary
 
-Test Setup  Open Browser    url=https://automationexercise.com/products   browser=chrome
+Test Setup  Open Browser    url=${URL}   browser=${BROWSER}
 Test Teardown  Close Browser
+
+*** Variables ***
+${URL}=  https://automationexercise.com/products
+${BROWSER}=  chrome
+
+*** Keywords ***
+Search for product
+    [Documentation]  nejake info o keywordu....
+    [Arguments]  ${whatSearch}
+    Wait Until Element Is Visible  //input[@id="search_product"]
+    SeleniumLibrary.Input Text       //input[@id="search_product"]    ${whatSearch}
+    SeleniumLibrary.Click Element    //button[@id="submit_search"] 
+
+Check result page
+    [Documentation]   info o kw
+    [Arguments]  ${whatCheck}
+    Wait Until Element Contains    //h2[contains(@class,"title")]    SEARCHED PRODUCTS    
+    Element Should Contain    //div[@class="features_items"]/div[not(@id="cartModal")][1]//div[contains(@class,"productinfo")]/p    ${whatCheck}
+
 
 *** Test Cases ***
 Eshop search - Shirt
     [Documentation]    nejaky popis testcase, link do dokumentace, dulezite info
     Maximize Browser Window
-    Wait Until Element Is Visible  //input[@id="search_product"]
-    SeleniumLibrary.Input Text       //input[@id="search_product"]    T-Shirt
-    SeleniumLibrary.Click Element    //button[@id="submit_search"]    
-    Wait Until Element Contains    //h2[contains(@class,"title")]    SEARCHED PRODUCTS    
-    Element Should Contain    //div[@class="features_items"]/div[not(@id="cartModal")][1]//div[contains(@class,"productinfo")]/p    T-Shirt
-        
+    Search for product    T-Shirt
+    Check result page    T-Shirt          
 
 Eshop search - Top    
     [Documentation]    nejaky popis testcase, link do dokumentace, dulezite info
     Maximize Browser Window
-    Wait Until Element Is Visible  //input[@id="search_product"]
-    SeleniumLibrary.Input Text       //input[@id="search_product"]    Top
-    SeleniumLibrary.Click Element    //button[@id="submit_search"]    
-    Wait Until Element Contains    //h2[contains(@class,"title")]    SEARCHED PRODUCTS    
-    Element Should Contain    //div[@class="features_items"]/div[not(@id="cartModal")][1]//div[contains(@class,"productinfo")]/p    TopXXX
-    
+    Search for product    Top
+    Check result page    Top
