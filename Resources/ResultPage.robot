@@ -8,4 +8,4 @@ Check result page
     [Documentation]   info o kw
     [Arguments]  ${whatCheck}
     Wait Until Element Contains    ${result_title_xpath}         SEARCHED PRODUCTS    
-    Element Should Contain         ${description_product_xpath}  ${whatCheck}
+    Element Should Contain         ${description_product_xpath}  ${whatCheck}      message=Popis ${whatCheck} nebyl nalezen u produktu
